@@ -11,6 +11,16 @@ function GrabPokemon(){
     return(PokeList[PokeIndex]);
 }
 
-console.log(typeof GrabPokemon());
-console.log(API+GrabPokemon());
-console.log(PokeList.length);
+const APICall = async () => {
+    const response = await fetch(API+GrabPokemon());
+    const JSONData = await response.json();
+    const Pokemon = await {
+        name: await JSONData.name,
+        sprite: await JSONData.sprites.front_default
+    }
+    return(Pokemon);
+}
+
+let poki = APICall()
+
+console.log(poki)
