@@ -39,26 +39,42 @@ const Spawn = async () => {
     const data = await APICall();
 
     const img = document.getElementById("img0");
-    OptionsSet.add(data.name);
+    Options.push(data.name);
 
     img.src = data.sprite
 }
 
 // This is written at 4:30 AM
-let OptionsSet = new Set();
+let Options = [];
 
 function Next() {
     Spawn();
+    // Get pokemon options
     for (const x of Array(3).keys()) {
         if (x == 0) {
-            OptionsSet = new Set();
+            Options = [];
         }
         fetch(API + String(Math.floor(Math.random() * 151)+1))
         .then(response => response.json())
-        .then(data => OptionsSet.add(data.name))
+        .then(data => Options.push(data.name))
     }
 
-    console.log(OptionsSet);
+    // Check for duplicates
+    let firsttick = false
+    for (const i of Options) {
+        if (Options[i] == Options[0]) {
+            if (firsttick == true) {
+                fetch(API + String(Math.floor(Math.random() * 151)+1))
+                .then(response => response.json())
+                .then(data => Options[i] = data.name)
+            } else {
+                firsttick = true;
+            }
+        }
+    }
+    // Shuffle list
+
+    console.log(Options);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
