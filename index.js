@@ -38,18 +38,35 @@ const Spawn = async () => {
 
     const data = await APICall();
 
-    const paragraph = document.getElementById("poke0");
     const img = document.getElementById("img0");
+    Options.add(data.name);
 
-    paragraph.textContent = data.name;
     img.src = data.sprite
 }
 
-
+let Options = new Set();
 // When the DOM is loaded we start to do stuff
+
+function Next() {
+    Spawn();
+    for (const x of Array(3).keys()) {
+        if (x == 0) {
+            Options = new Set();
+        }
+        fetch(API + String(Math.floor(Math.random() * 151)+1))
+        .then(response => response.json())
+        .then(data => Options.add(data.name))
+    }
+
+    console.log(Options);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("nextbutton").textContent = "New Game"
-    document.getElementById("nextbutton").onclick = Spawn;
+    
+    // First click on New Game
+    document.getElementById("nextbutton").onclick = Next;
+    
 });
 
 
