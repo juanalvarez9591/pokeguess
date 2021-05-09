@@ -28,10 +28,9 @@ const Spawn = async () => {
     const paragraph = document.createElement("p");
     const img = document.createElement("img");
 
-    const name = document.createTextNode(data.name);
-    paragraph.appendChild(name);
-
+    paragraph.textContent = data.name;
     img.src = data.sprite
+
     container.appendChild(paragraph);
     container.appendChild(img);
 
