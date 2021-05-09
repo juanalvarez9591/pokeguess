@@ -39,26 +39,26 @@ const Spawn = async () => {
     const data = await APICall();
 
     const img = document.getElementById("img0");
-    Options.add(data.name);
+    OptionsSet.add(data.name);
 
     img.src = data.sprite
 }
 
-let Options = new Set();
-// When the DOM is loaded we start to do stuff
+// This is written at 4:30 AM
+let OptionsSet = new Set();
 
 function Next() {
     Spawn();
     for (const x of Array(3).keys()) {
         if (x == 0) {
-            Options = new Set();
+            OptionsSet = new Set();
         }
         fetch(API + String(Math.floor(Math.random() * 151)+1))
         .then(response => response.json())
-        .then(data => Options.add(data.name))
+        .then(data => OptionsSet.add(data.name))
     }
 
-    console.log(Options);
+    console.log(OptionsSet);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
