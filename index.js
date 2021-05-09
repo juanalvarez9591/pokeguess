@@ -14,13 +14,17 @@ function GrabPokemon(){
 const APICall = async () => {
     const response = await fetch(API+GrabPokemon());
     const JSONData = await response.json();
-    const Pokemon = await {
+    const Pokemon = {
         name: await JSONData.name,
         sprite: await JSONData.sprites.front_default
     }
     return(Pokemon);
 }
 
-let poki = APICall()
+const Spawn = async () => {
+    let data = await APICall();
+    return(data);
+}
 
-console.log(poki)
+Spawn()
+console.log(data)
