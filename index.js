@@ -33,48 +33,37 @@ const APICall = async () => {
 }
 
 // This function spawns in the div the Pokemon by making an API Call
+let currentPokemon;
 const Spawn = async () => {
     document.getElementById("nextbutton").textContent = "Next"
 
     const data = await APICall();
 
     const img = document.getElementById("img0");
-    Options.push(data.name);
-
     img.src = data.sprite
+
+    currentPokemon = await data.name;
 }
 
-// This is written at 4:30 AM
-let Options = [];
 
-function Next() {
-    Spawn();
-    // Get pokemon options
+const Next = async () => {
+    let Options = [];
+    await Spawn();
+
     for (const x of Array(3).keys()) {
         if (x == 0) {
             Options = [];
         }
-        fetch(API + String(Math.floor(Math.random() * 151)+1))
-        .then(response => response.json())
-        .then(data => Options.push(data.name))
+        const optionscall = await fetch(API + String(Math.floor(Math.random() * 151)+1));
+        const optionsdata = await optionscall.json();
+        Options.push(await optionsdata.name);
     }
 
-    // Check for duplicates
-    let firsttick = false
-    for (const i of Options) {
-        if (Options[i] == Options[0]) {
-            if (firsttick == true) {
-                fetch(API + String(Math.floor(Math.random() * 151)+1))
-                .then(response => response.json())
-                .then(data => Options[i] = data.name)
-            } else {
-                firsttick = true;
-            }
-        }
-    }
-    // Shuffle list
+    Options.push(currentPokemon);
+    Options = Options.sort( () => .5 - Math.random() );
 
     console.log(Options);
+    console.log(currentPokemon);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
