@@ -22,9 +22,20 @@ const APICall = async () => {
 }
 
 const Spawn = async () => {
-    let data = await APICall();
-    return(data);
+    const data = await APICall();
+
+    const container = document.getElementById("container");
+    const paragraph = document.createElement("p");
+    const img = document.createElement("img");
+
+    const name = document.createTextNode(data.name);
+    paragraph.appendChild(name);
+
+    img.src = data.sprite
+    container.appendChild(paragraph);
+    container.appendChild(img);
+
+    
 }
 
 Spawn()
-console.log(data)
