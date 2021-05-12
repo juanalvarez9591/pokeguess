@@ -38,8 +38,6 @@ const APICall = async () => {
 let currentPokemon;
 
 const Spawn = async () => {
-    document.getElementById("nextbutton").textContent = "Restart";
-
     const data = await APICall();
 
     const img = document.getElementById("img0");
@@ -51,11 +49,12 @@ const Spawn = async () => {
 let IncreaseScore;
 
 const Next = async () => {
+    // hide button after pressing
+    document.getElementById('nextbutton').style.visibility = "hidden";
+
     let Options = [];
 
     await Spawn();
-
-    document.getElementById('score').textContent = Score;
 
     for (const x of Array(3).keys()) {
         if (x == 0) {
@@ -73,6 +72,7 @@ const Next = async () => {
 
     for (const i of Array(4).keys()) {
         let item = document.getElementById("poke" + String(i));
+        item.style.visibility = "visible";
         item.textContent = Options[i];
         item.style.background = "";
         item.addEventListener("click", function () {
@@ -88,13 +88,17 @@ const Next = async () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // hide options buttons before putting data on them
+    for (const i of Array(4).keys()) {
+        document.getElementById('poke' + String(i)).style.visibility = "hidden";
+    }
+
     document.getElementById("nextbutton").textContent = "New Game"
     document.getElementById("nextbutton").onclick = Next;
 
     const win = false;
     const interval = 400;
     const timer = window.setInterval(function () {
-        console.log("sake")
         switch (IncreaseScore) {
             case true:
                 Score += 1;
