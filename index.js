@@ -3,9 +3,11 @@ const API = "https://pokeapi.co/api/v2/pokemon/";
 
 // We execute the function new game for the first time
 let PokeList;
+let Score;
 
 function NewGame() {
     PokeList = [];
+    Score = 0;
 
     for (let i = 1; i != 152; i++) {
         PokeList.push(i.toString());
@@ -34,8 +36,9 @@ const APICall = async () => {
 
 // This function spawns in the div the Pokemon by making an API Call
 let currentPokemon;
+
 const Spawn = async () => {
-    document.getElementById("nextbutton").textContent = "Next"
+    document.getElementById("nextbutton").textContent = "Restart";
 
     const data = await APICall();
 
@@ -45,10 +48,14 @@ const Spawn = async () => {
     currentPokemon = await data.name;
 }
 
+let IncreaseScore;
 
 const Next = async () => {
     let Options = [];
+
     await Spawn();
+
+    document.getElementById('score').textContent = Score;
 
     for (const x of Array(3).keys()) {
         if (x == 0) {
@@ -60,22 +67,24 @@ const Next = async () => {
     }
 
     Options.push(currentPokemon);
+
+    // Randomize list
     Options = Options.sort(() => .5 - Math.random());
 
     for (const i of Array(4).keys()) {
         let item = document.getElementById("poke" + String(i));
         item.textContent = Options[i];
+        item.style.background = "";
         item.addEventListener("click", function () {
             if (item.textContent == currentPokemon) {
-                console.log("yes");
+                IncreaseScore = true;
+                item.style.background = "#1e9e40";
             } else {
-                console.log("no");
+                IncreaseScore = false;
+                item.style.background = "#d63211";
             }
         })
     }
-
-    console.log(Options);
-    console.log(currentPokemon);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
