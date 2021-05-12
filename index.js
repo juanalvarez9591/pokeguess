@@ -34,27 +34,21 @@ const APICall = async () => {
     return (Pokemon);
 }
 
-// This function spawns in the div the Pokemon by making an API Call
 let currentPokemon;
+let IncreaseScore;
 
-const Spawn = async () => {
+const MasterFunction = async () => {
     const data = await APICall();
 
     const img = document.getElementById("img0");
     img.src = data.sprite
 
     currentPokemon = await data.name;
-}
 
-let IncreaseScore;
-
-const Next = async () => {
     // hide button after pressing
-    document.getElementById('nextbutton').style.visibility = "hidden";
+    document.getElementById('newgame').style.visibility = "hidden";
 
     let Options = [];
-
-    await Spawn();
 
     for (const x of Array(3).keys()) {
         if (x == 0) {
@@ -93,25 +87,31 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('poke' + String(i)).style.visibility = "hidden";
     }
 
-    document.getElementById("nextbutton").textContent = "New Game"
-    document.getElementById("nextbutton").onclick = Next;
+    document.getElementById("newgame").textContent = "New Game"
+    document.getElementById("newgame").onclick = MasterFunction;
 
-    const win = false;
+    let win = false;
     const interval = 400;
     const timer = window.setInterval(function () {
+        if (Score >= 151) {
+            IncreaseScore = "win"
+        }
         switch (IncreaseScore) {
             case true:
                 Score += 1;
                 document.getElementById('score').textContent = Score;
                 IncreaseScore = "inactive";
-                Next();
+                MasterFunction();
                 break;
             case false:
                 NewGame()
                 document.getElementById('score').textContent = Score;
                 IncreaseScore = "inactive";
-                Next();
+                MasterFunction();
                 break;
+            case "win":
+                win = true;
+                document.getElementById('score').textContent = "You win! You guessed all 151 Pokemon...";
             default:
                 break;
         }
