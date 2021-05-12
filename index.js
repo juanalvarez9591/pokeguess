@@ -48,18 +48,17 @@ const MasterFunction = async () => {
     // hide button after pressing
     document.getElementById('newgame').style.visibility = "hidden";
 
-    let Options = [];
+    let Options = new Set();
 
-    for (const x of Array(3).keys()) {
-        if (x == 0) {
-            Options = [];
-        }
+    Options.add(currentPokemon);
+
+    while (Options.size < 4) {
         const optionscall = await fetch(API + String(Math.floor(Math.random() * 151) + 1));
         const optionsdata = await optionscall.json();
-        Options.push(await optionsdata.name);
+        Options.add(await optionsdata.name);
     }
 
-    Options.push(currentPokemon);
+    Options = Array.from(Options);
 
     // Randomize list
     Options = Options.sort(() => .5 - Math.random());
@@ -119,14 +118,4 @@ document.addEventListener('DOMContentLoaded', () => {
             window.clearInterval(timer);
         }
     }, interval);
-
-
 });
-
-
-
-
-
-
-
-
