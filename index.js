@@ -89,9 +89,33 @@ const Next = async () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("nextbutton").textContent = "New Game"
-
-    // First click on New Game
     document.getElementById("nextbutton").onclick = Next;
+
+    const win = false;
+    const interval = 400;
+    const timer = window.setInterval(function () {
+        console.log("sake")
+        switch (IncreaseScore) {
+            case true:
+                Score += 1;
+                document.getElementById('score').textContent = Score;
+                IncreaseScore = "inactive";
+                Next();
+                break;
+            case false:
+                NewGame()
+                document.getElementById('score').textContent = Score;
+                IncreaseScore = "inactive";
+                Next();
+                break;
+            default:
+                break;
+        }
+        if (win == true) {
+            window.clearInterval(timer);
+        }
+    }, interval);
+
 
 });
 
